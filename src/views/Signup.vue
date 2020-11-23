@@ -1,45 +1,38 @@
 <template>
   <div>
     <h1>Signup</h1>
-    <div>
-      <label for="username">사용자 이름: </label>
-      <input type="text" id="username" v-model="credentials.username">
-    </div>
-    <div>
-      <label for="password">비밀번호: </label>
-      <input type="password" id="password" v-model="credentials.password">
-    </div>
-    <div>
-      <label for="password2">비밀번호 확인: </label>
-      <input 
-        type="password" 
-        id="password2" 
-        v-model="credentials.password2"
-        @keypress.enter="signup"
-      >
-    </div>
+      <div>
+        <v-text-field
+          label="User name"
+          hide-details="auto"
+          v-model="credentials.username"
+          :rules="rules"
+        ></v-text-field>
+        <v-text-field 
+          label="Password"
+          hide-details="auto"
+          v-model="credentials.password"
+          :rules="rules"
+          :type="'password'"
+        ></v-text-field>
+        <v-text-field 
+          label="Password Check"
+          v-model="credentials.password2"
+          :rules="rules"
+          :type="'password'"
+        ></v-text-field>
 
-    <label for="choice">당신의 MBTI는?</label>
-    <select name="choice" id="choice" v-model="credentials.MBTI">
-      <option value=1>ESTJ</option>
-      <option value=2>ESTP</option>
-      <option value=3>ESFJ</option>
-      <option value=4>ESFP</option>
-      <option value=5>ENTJ</option>
-      <option value=6>ENTP</option>
-      <option value=7>ENFJ</option>
-      <option value=8>ENFP</option>
-      <option value=9>ISTJ</option>
-      <option value=10>ISTP</option>
-      <option value=11>ISFJ</option>
-      <option value=12>ISFP</option>
-      <option value=13>INTJ</option>
-      <option value=14>INFJ</option>
-      <option value=15>INFJ</option>
-      <option value=16>INFP</option>
-    </select>
+        <v-select
+          :items="items"
+          v-model="credentials.MBTI"
+          item-text="state"
+          item-value="abbr"
+          label="MBTI"
+        ></v-select>
+      </div>
+
     <br>
-    <button @click="signup">회원가입</button>
+    <button @click="signup" >회원가입</button>
 
   </div>
 </template>
@@ -57,8 +50,30 @@ export default {
         username: '',
         password: '',
         password2: '',
-        MBTI:'',
-      }
+        MBTI:''
+      },
+      rules: [
+        value => !!value || 'Required.',
+        value => (value && value.length >= 3) || 'Min 3 characters',
+      ],
+      items: [
+        { state: 'ESTJ', abbr: 1 },
+        { state: 'ESTP', abbr: 2 },
+        { state: 'ESFJ', abbr: 3 },
+        { state: 'ESFP', abbr: 4 },
+        { state: 'ENTJ', abbr: 5 },
+        { state: 'ENTP', abbr: 6 },
+        { state: 'ENFJ', abbr: 7 },
+        { state: 'ENFP', abbr: 8 },
+        { state: 'ISTJ', abbr: 9 },
+        { state: 'ISTP', abbr: 10 },
+        { state: 'ISFJ', abbr: 11 },
+        { state: 'ISFP', abbr: 12 },
+        { state: 'INTJ', abbr: 13 },
+        { state: 'INFJ', abbr: 14 },
+        { state: 'INFJ', abbr: 15 },
+        { state: 'INFP', abbr: 16 },
+      ],
     }
   },
   methods: {
