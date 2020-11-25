@@ -1,6 +1,6 @@
 <template>
+
   <v-card
-    v-if="selected"
     class="mx-auto my-12"
     max-width="748"
   >
@@ -34,7 +34,7 @@
       </v-row>
 
       <div class="mt-4 subtitle-1">
-        {{ selected.user }}
+        {{ selected.user.username }}
       </div>
 
       </v-card-text>
@@ -46,6 +46,31 @@
       {{selected.content}}
     </v-card-text>
 
+    <v-divider class="mx-4"></v-divider>
+
+
+    <v-card-title>Comments</v-card-title>
+    <v-card-text>
+      <Comment 
+        v-for="(comment,idx) in comments"
+        :key="idx"
+        :comment="comment"
+      />
+    </v-card-text>
+
+    <v-text-field
+      label="comments"
+      v-model="commentsInput"
+      class="mx-4"
+    ></v-text-field>
+    <v-btn
+      color="deep-purple lighten-2"
+      text
+      @click="createComment"
+    >
+      입력 
+    </v-btn>
+
     <v-card-actions>
       <v-btn
         color="deep-purple lighten-2"
@@ -54,17 +79,43 @@
       >
         닫기
       </v-btn>
+      <v-btn
+        color="deep-purple lighten-2"
+        text
+        @click="update(selected)"
+      >
+        수정
+      </v-btn>
+      <v-btn
+        color="deep-purple lighten-2"
+        text
+        @click="del"
+      >
+        삭제
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import axios from 'axios'
+import Comment from '../components/Comment.vue'
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name:'CommunityDetail',
+  data: function () {
+    return {
+      commentsInput: '',
+      comments: '',
+    }
+  },
   props: {
     selected: Object,
     index: Number,
+  },
+  components:{
+    Comment,
   },
   methods: {
     setToken: function () {
@@ -79,11 +130,50 @@ export default {
     },
     close: function () {
       this.$emit('closeDetail')
+    },
+    update: function (selected) {
+      console.log('update')
+      this.$emit('reviewUpdate',selected)
+    },
+    del: function () {
+      this.$emit('delReview',this.selected.id)
+    },
+    getComments: function () {
+      const config = this.setToken()
+
+      axios.get(`${SERVER_URL}/communitys/${this.selected.id}/comments/`, config)
+        .then((res) => {
+          this.comments = res.data
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    },
+    createComment: function () {
+      const config = this.setToken()
+
+      const newComment = {
+        content: this.commentsInput,
+      }
+
+      axios.post(`${SERVER_URL}/communitys/${this.selected.id}/comments/`, newComment, config)
+        .then(() => {
+          this.getComments()
+          this.commentsInput= ''
+        })
+        .catch((err) => {
+          console.error(err)
+        })
     }
   },
-  created: function () {
-    console.log(this.selected)
-  },
+
+  watch: {
+    selected: function () {
+      this.getComments()
+    }
+  }
+  
+  
 }
 </script>
 

@@ -2,7 +2,7 @@
 <div>
   <v-card>
     <v-card-title>
-      <span class="headline">리뷰 작성</span>
+      <span class="headline">리뷰 수정</span>
     </v-card-title>
     <v-card-text>
       <v-container>
@@ -72,23 +72,22 @@ import axios from 'axios'
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
-  name:'CommunityWrite',
+  name:'CommunityUpdate',
   data: function () {
     return {
       writeForm: {
-        title: '',
-        movie_title: '',
-        content:'',
-        rank: '',
+        title: this.sel.title,
+        movie_title: this.sel.movie_title,
+        content: this.sel.content,
+        rank: this.sel.rank,
       },
-      rules: [
-        value => !!value || 'Required.',
-        value => (value && value.length >= 3) || 'Min 3 characters',
-      ],
       items: [
         1,2,3,4,5
       ]
     }
+  },
+  props:{
+    sel: Object,
   },
   methods: {
     setToken: function () {
@@ -102,7 +101,7 @@ export default {
       return config
     },
     write: function () {
-      console.log('write')
+      console.log('update')
       
       const config = this.setToken()
 
@@ -112,19 +111,22 @@ export default {
         content: this.writeForm.content,
         rank: this.writeForm.rank,
       }
-      axios.post(`${SERVER_URL}/communitys/`,newReview, config)
+      axios.put(`${SERVER_URL}/communitys/${this.sel.id}/`,newReview, config)
       .then(() => {
+        this.sel.title = this.writeForm.title
+        this.sel.movie_title = this.writeForm.movie_title
+        this.sel.content = this.writeForm.content
+        this.sel.rank = this.writeForm.rank
         this.$emit('getList')
         this.cancel()
       })
       .catch((err) => {
-        console.log(newReview)
         console.error(err)
       })
       
     },
     cancel: function () {
-      this.$emit('close')
+      this.$emit('closeUpdate')
     }
   }
 }

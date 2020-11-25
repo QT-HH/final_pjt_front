@@ -6,11 +6,7 @@
           absolute
           color="#6A76AB"
           dark
-          shrink-on-scroll
-          prominent
           src="https://picsum.photos/1920/1080?random"
-          fade-img-on-scroll
-          scroll-target="#scrolling-techniques-3"
         >
 
           <template v-slot:img="{ props }" class="d-block">
@@ -20,9 +16,7 @@
             ></v-img>
           </template>
 
-          <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-          <v-toolbar-title>Title</v-toolbar-title>
+          <v-toolbar-title> <h2>Title</h2> </v-toolbar-title>
 
           <v-spacer></v-spacer>
 
@@ -59,7 +53,7 @@
           </template>
         </v-app-bar>
       </div>
-      <div style="height:250px;">
+      <div style="height:120px;">
 
       </div>
       <v-sheet
