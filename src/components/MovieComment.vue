@@ -18,7 +18,7 @@
     <v-row v-if="putSig">
       <v-col cols="6">
         <v-text-field
-          label="comments"
+          label="review input"
           v-model="commentsInput"
           class="mx-4"
         ></v-text-field>

@@ -51,7 +51,7 @@
           >
           <div class="row">
             <div class="col-12">
-              <h4>무작위 영화</h4>
+              <h4>지금 <span class="font-weight-bolder">{{movie3.title}}</span>이(가) 땡겨요!</h4>
             </div>
             <div class="col-12">
               <movie3 :movie="movie3" @detailShow3="detailShow" />

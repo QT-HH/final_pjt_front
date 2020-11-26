@@ -1,5 +1,10 @@
 <template>
   <div>
+    <v-card 
+      elevation="24"
+      shaped
+      class="col-3 col-md-2"
+    >
     <h1>Signup</h1>
       <div>
         <v-text-field
@@ -39,7 +44,7 @@
       >
         회원가입
       </v-btn>
-
+    </v-card>
   </div>
 </template>
 

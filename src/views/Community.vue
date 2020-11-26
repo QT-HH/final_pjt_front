@@ -57,7 +57,7 @@
                   :review="review"
                   @click="reviewDetail(review)"
                 >
-                  <td>{{ review.title }}</td>
+                  <td>{{ review.title }} ({{review.comments.length}})</td>
                   <td>{{ review.user.username }}</td>
                   <td>{{ review.created_at }}</td>
                 </tr>

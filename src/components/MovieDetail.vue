@@ -23,7 +23,7 @@
       <v-divider class="mx-4"></v-divider>
 
 
-      <v-card-title>Comments</v-card-title>
+      <v-card-title>Reviews</v-card-title>
 
       <v-card-text>
         <MovieComment 
@@ -45,7 +45,7 @@
       <v-row>
         <v-col cols="10">
           <v-text-field
-            label="comments"
+            label="review input"
             v-model="commentsInput"
             class="mx-4"
             @keydown.enter="createComment"

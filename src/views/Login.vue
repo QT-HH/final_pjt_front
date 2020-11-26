@@ -1,5 +1,10 @@
 <template>
     <div>
+      <v-card 
+        elevation="24"
+        shaped
+        class="col-3 col-md-2"
+      >
       <h1>Login</h1>
         <div @keydown.enter="login">
           <v-text-field
@@ -29,7 +34,7 @@
       <br>
       <br>
       만약 계정이 없다면? <a href='' @click="gotoSignup"> SignUp </a>
-      
+      </v-card>
   </div>
 </template>
 
