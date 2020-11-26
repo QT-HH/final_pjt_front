@@ -1,12 +1,10 @@
 <template>
-  <v-app style="height:100%;">
-    <v-card class="overflow-hidden">
+  <v-app style="background-color:#D8D8D8;">
+    <div>
       <div class="fixed-top">
         <v-app-bar
-          absolute
-          color="#6A76AB"
           dark
-          src="https://picsum.photos/1920/1080?random"
+          class="bg-info"
         >
 
           <template v-slot:img="{ props }" class="d-block">
@@ -16,56 +14,61 @@
             ></v-img>
           </template>
 
-          <v-toolbar-title> <h2>Title</h2> </v-toolbar-title>
+          <!-- <v-toolbar-title> <img alt="Vue logo" src="./assets/100j.png"> </v-toolbar-title> -->
+          <router-link :to="{ name: 'Home' }" class="pt-4 pl-3">
+            <img alt="Vue logo" src="./assets/100jj.png" style="width:60px; height:60px;">
+          </router-link>
+          <!-- <v-toolbar-title> <h2>100J</h2> </v-toolbar-title> -->
 
           <v-spacer></v-spacer>
 
         
           <div v-if="login">
             <v-btn icon class="mx-2">
-              <router-link @click.native="logout" to="#">Logout</router-link>
+              <router-link @click.native="logout" to="#" class="text-white">Logout</router-link>
             </v-btn>
           </div>
           <div v-else> 
             <v-btn icon class="mx-2">
-              <router-link :to="{ name: 'Signup' }">SignUp</router-link>
+              <router-link :to="{ name: 'Signup' }" class="text-white"> SignUp</router-link>
             </v-btn>
 
             <v-btn icon class="mx-2">
-              <router-link :to="{ name: 'Login' }">Login</router-link>
+              <router-link :to="{ name: 'Login' }" class="text-white">Login</router-link>
             </v-btn>
           </div>
 
-          <v-btn icon>
+          <!-- <v-btn icon>
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
 
           <v-btn icon>
             <v-icon>mdi-heart</v-icon>
-          </v-btn>
+          </v-btn> -->
 
           <template v-slot:extension>
             <v-tabs align-with-title>
-              <v-tab><router-link :to="{ name: 'Home' }">Home</router-link></v-tab>
-              <v-tab>Recommand</v-tab>
-              <v-tab><router-link :to="{ name: 'Community' }">Community</router-link></v-tab>
+              <v-tab><router-link :to="{ name: 'Home' }" class="text-white">Home</router-link></v-tab>
+              <v-tab><router-link :to="{ name: 'Recommand' }" class="text-white">Recommand</router-link></v-tab>
+              <v-tab><router-link :to="{ name: 'Community' }" class="text-white">Community</router-link></v-tab>
             </v-tabs>
           </template>
         </v-app-bar>
       </div>
-      <div style="height:120px;">
+      <div style="height:120px; background-color:#D8D8D8;">
 
       </div>
       <v-sheet
         id="scrolling-techniques-3"
         class="overflow-y-auto"
+        style="background-color:#D8D8D8;"
 
       >
-        <v-container>
+        <div class="container">
           <router-view @login="login = true" />
-        </v-container>
+        </div>
       </v-sheet>
-    </v-card>
+    </div>
   </v-app>
 </template>
 

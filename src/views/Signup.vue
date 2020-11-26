@@ -32,7 +32,13 @@
       </div>
 
     <br>
-    <button @click="signup" >회원가입</button>
+          <v-btn
+        color="primary"
+        dark
+        @click="signup"
+      >
+        회원가입
+      </v-btn>
 
   </div>
 </template>

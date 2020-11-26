@@ -1,20 +1,35 @@
 <template>
-  <div>
-    <h1>Login</h1>
     <div>
-      <label for="username">사용자 이름: </label>
-      <input type="text" id="username" v-model="credentials.username">
-    </div>
-    <div>
-      <label for="password">비밀번호: </label>
-      <input 
-        type="password" 
-        id="password" 
-        v-model="credentials.password"
-        @keypress.enter="login"
+      <h1>Login</h1>
+        <div @keydown.enter="login">
+          <v-text-field
+            label="User name"
+            hide-details="auto"
+            v-model="credentials.username"
+            :rules="rules"
+          ></v-text-field>
+          <v-text-field 
+            label="Password"
+            hide-details="auto"
+            v-model="credentials.password"
+            :rules="rules"
+            :type="'password'"
+          ></v-text-field>
+
+        </div>
+
+      <br>
+      <v-btn
+        color="primary"
+        dark
+        @click="login"
       >
-    </div>
-    <button @click="login">로그인</button>
+        로그인
+      </v-btn>
+      <br>
+      <br>
+      만약 계정이 없다면? <a href='' @click="gotoSignup"> SignUp </a>
+      
   </div>
 </template>
 
@@ -45,6 +60,9 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    gotoSignup: function () {
+      this.$router.push({ name: 'Signup' })
     }
   }
 }

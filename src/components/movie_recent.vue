@@ -15,7 +15,7 @@
                   absolute
                   color="#036358"
                 >
-                  <v-btn @click="detailShow(movie)">{{movie.title}}</v-btn>
+                  <v-btn @click="detailShow2(movie)">{{movie.title}}</v-btn>
                 </v-overlay>
               </v-fade-transition>
             </v-card>
@@ -31,7 +31,7 @@
 <script>
 
 export default {
-  name:'movie',
+  name:'movie_recent',
   props: {
     movie: Object,
   },
@@ -41,8 +41,8 @@ export default {
     }
   },
   methods: {
-    detailShow: function (movie) {
-      this.$emit('detailShow',movie)
+    detailShow2: function (movie) {
+      this.$emit('detailShow2',movie)
     },
   },
 }

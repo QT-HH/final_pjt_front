@@ -16,15 +16,7 @@
               v-model="writeForm.title"
             ></v-text-field>
           </v-col>
-          <v-col
-            cols="12"
-          >
-            <v-text-field
-              label="Movie Title"
-              hint="example of helper text only on focus"
-              v-model="writeForm.movie_title"
-            ></v-text-field>
-          </v-col>
+
           <v-col
             cols="12"
           >
@@ -34,14 +26,7 @@
               v-model="writeForm.content"
             ></v-textarea>
           </v-col>
-          <v-col cols="12">
-            <v-select
-              label="rank"
-              required
-              v-model="writeForm.rank"
-              :items="items"
-            ></v-select>
-          </v-col>
+
         </v-row>
       </v-container>
     </v-card-text>

@@ -5,9 +5,9 @@
           <template v-slot:default="{ hover }">
             <v-card
               class="mx-auto text-center"
-              max-width="190"
+              max-width="380"
             >
-              <v-img :src=imgSrc style="width:200px; height:280px;" class="mx-auto"></v-img>
+              <v-img :src=imgSrc style="width:400px; height:560px;" class="mx-auto"></v-img>
 
               <v-fade-transition>
                 <v-overlay
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     detailShow: function (movie) {
-      this.$emit('detailShow',movie)
+      this.$emit('detailShow4',movie)
     },
   },
 }

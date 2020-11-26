@@ -1,7 +1,7 @@
 <template>
 
-  <v-card
-    class="mx-auto my-12"
+  <div
+    class="mx-auto"
     max-width="748"
   >
     <template slot="progress">
@@ -19,14 +19,6 @@
         align="center"
         class="mx-0"
       >
-        <v-rating
-          :value=selected.rank
-          color="amber"
-          dense
-          half-increments
-          readonly
-          size="14"
-        ></v-rating>
 
         <div class="grey--text ml-4">
           {{ selected.rank }}
@@ -34,13 +26,17 @@
       </v-row>
 
       <div class="mt-4 subtitle-1">
-        {{ selected.user.username }}
+        작성자 : {{ selected.user.username }}
+      </div>
+      <div class="subtitle-1">
+        작성일 : {{ selected.created_at }}
+      </div>
+      <div class="subtitle-1">
+        수정일 : {{ selected.updated_at }}
       </div>
 
       </v-card-text>
     <v-divider class="mx-4"></v-divider>
-
-    <v-card-title>{{selected.movie_title}}</v-card-title>
 
     <v-card-text>
       {{selected.content}}
@@ -55,21 +51,32 @@
         v-for="(comment,idx) in comments"
         :key="idx"
         :comment="comment"
+        @delCom="getComments"
+        @putComment="getComments"
       />
     </v-card-text>
 
-    <v-text-field
-      label="comments"
-      v-model="commentsInput"
-      class="mx-4"
-    ></v-text-field>
-    <v-btn
-      color="deep-purple lighten-2"
-      text
-      @click="createComment"
-    >
-      입력 
-    </v-btn>
+    <v-row>
+      <v-col cols="10">
+        <v-text-field
+          label="comments"
+          v-model="commentsInput"
+          class="mx-4"
+          @keydown.enter="createComment"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="2">
+        <v-btn
+          color="deep-purple lighten-2"
+          text
+          @click="createComment"
+        >
+          입력 
+        </v-btn>
+
+      </v-col>
+
+    </v-row>
 
     <v-card-actions>
       <v-btn
@@ -94,7 +101,7 @@
         삭제
       </v-btn>
     </v-card-actions>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -164,12 +171,16 @@ export default {
         .catch((err) => {
           console.error(err)
         })
+    },
+    delCom: function () {
+      this.getComments()
     }
   },
 
   watch: {
     selected: function () {
       this.getComments()
+      this.$emit('reviewDetail')
     }
   }
   

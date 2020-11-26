@@ -30,6 +30,7 @@
           v-for="(comment,idx) in comments"
           :key="idx"
           :comment="comment"
+          @delputComm="getComments"
         />
       </v-card-text>
 
@@ -41,18 +42,26 @@
         class="mx-4"
       ></v-select>
 
-      <v-text-field
-        label="comments"
-        v-model="commentsInput"
-        class="mx-4"
-      ></v-text-field>
-      <v-btn
-        color="deep-purple lighten-2"
-        text
-        @click="createComment"
-      >
-        입력
-      </v-btn>
+      <v-row>
+        <v-col cols="10">
+          <v-text-field
+            label="comments"
+            v-model="commentsInput"
+            class="mx-4"
+            @keydown.enter="createComment"
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="1">
+          <v-btn
+            color="deep-purple lighten-2"
+            text
+            @click="createComment"
+          >
+            입력
+          </v-btn>
+        </v-col>
+      </v-row>
 
       <v-card-actions>
         <v-btn
@@ -83,6 +92,7 @@ export default {
       rank: Number,
       commentsInput: '',
       comments: [],
+      login:false,
     }
   },
   props:{
@@ -114,24 +124,34 @@ export default {
         })
     },
     createComment: function () {
-      const config = this.setToken()
-
-      const newComment = {
-        content: this.commentsInput,
-        rank: this.rank,
+      if (this.login) {
+        const config = this.setToken()
+  
+        const newComment = {
+          content: this.commentsInput,
+          rank: this.rank,
+        }
+  
+        axios.post(`${SERVER_URL}/movies/${this.movie.id}/comments/`, newComment, config)
+          .then(() => {
+            this.getComments()
+            this.commentsInput= ''
+          })
+          .catch((err) => {
+            console.error(err)
+          })
+      } else {
+        this.$router.push({ name: 'Login' })
       }
 
-      axios.post(`${SERVER_URL}/movies/${this.movie.id}/comments/`, newComment, config)
-        .then(() => {
-          this.getComments()
-          this.commentsInput= ''
-        })
-        .catch((err) => {
-          console.error(err)
-        })
     }
   },
   created: function () {
+    const token = localStorage.getItem('jwt')
+
+    if (token) {
+      this.login = true
+    }
     this.getComments()
   },
   watch: {

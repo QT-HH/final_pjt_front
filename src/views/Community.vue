@@ -1,74 +1,101 @@
 <template>
-  <div>
-    <h2>리뷰 게시판</h2>
-    <CommunityDetail v-if="detail_sign" :selected="selected" :index="index" @closeDetail="closeDetail" @delReview="delReview"  @reviewUpdate="reviewUpdate" />
+  <div class="container">
+    <div v-if="login" >
+      <v-row>
+        <v-col cols="10">
+          <h2>자유 게시판</h2>
+        </v-col>
+        <v-col cols="2">
+          
+          <v-row justify="center">
+            <v-dialog
+              v-model="dialog_write"
+              persistent
+              max-width="600px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  리뷰 작성
+                </v-btn>
+              </template>
+              <CommunityWrite @close="dialog_write = false" @getList="getList" />
+            </v-dialog>
+          </v-row>
+        </v-col>
+
+      </v-row>
+      <div class="row justify-content-around">
+        <v-card
+          elevation="24"
+          shaped
+          class="col-5"
+        >
+          <v-simple-table >
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Title
+                  </th>
+                  <th class="text-left">
+                    Writer
+                  </th>
+                  <th class="text-left">
+                    Created
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(review,idx) in reviewList"
+                  :key="idx"
+                  :review="review"
+                  @click="reviewDetail(review)"
+                >
+                  <td>{{ review.title }}</td>
+                  <td>{{ review.user.username }}</td>
+                  <td>{{ review.created_at }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+
+        </v-card>
+        <v-card
+          elevation="24"
+          shaped
+          class="col-5"
+          v-if="detail_sign"
+        >
+          <CommunityDetail :selected="selected" :index="index" @closeDetail="closeDetail" @delReview="delReview"  @reviewUpdate="reviewUpdate" />
+        </v-card>
+        
+      </div>
       
-    <v-row>
-      <v-dialog
-        v-model="dialog_write"
-        persistent
-        max-width="600px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            color="primary"
-            dark
-            v-bind="attrs"
-            v-on="on"
-          >
-            리뷰 작성
-          </v-btn>
-        </template>
-        <CommunityWrite @close="dialog_write = false" @getList="getList" />
-      </v-dialog>
-    </v-row>
+          
 
-    <v-row justify="center">
-      <v-dialog
-        v-model="dialog_update"
-        persistent
-        max-width="600px"
-      >
-        <template>
-        </template>
-        <CommunityUpdate @closeUpdate="dialog_update = false" @getList="getList" :sel="selected"/>
-      </v-dialog>
-    </v-row>
+          <div class="col-4">
+            <v-dialog
+              v-model="dialog_update"
+              persistent
+              max-width="600px"
+            >
+              <template>
+              </template>
+              <CommunityUpdate @closeUpdate="dialog_update = false" @getList="getList" :sel="selected"/>
+            </v-dialog>
+      </div>
 
-    <v-simple-table>
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-left">
-              Title
-            </th>
-            <th class="text-left">
-              MovieTitle
-            </th>
-            <th class="text-left">
-              Rank
-            </th>
-            <th class="text-left">
-              Writer
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(review,idx) in reviewList"
-            :key="idx"
-            :review="review"
-            @click="reviewDetail(review)"
-          >
-            <td>{{ review.title }}</td>
-            <td>{{ review.movie_title }}</td>
-            <td>{{ review.rank }}</td>
-            <td>{{ review.user.username }}</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
 
+    </div>
+    <div v-else>
+      <h1> 먼저 <a href="" @click="gotoLogin">로그인</a>을 해주세요. </h1>
+    </div>
   </div>
 </template>
 
@@ -100,6 +127,7 @@ export default {
       len: Number,
       detail_sign: false,
       del_id:Number,
+      login:false,
     }
   },
   methods: {
@@ -108,10 +136,8 @@ export default {
 
       axios.get(`${SERVER_URL}/communitys/`, config)
         .then((res) => {
-          console.log(res)
           this.reviewList = res.data
           this.len = this.reviewList.length
-          console.log(this.len)
         })
         .catch((err) => {
           console.error(err)
@@ -173,7 +199,15 @@ export default {
 
   },
   created: function () {
-    this.getList()
+    const token = localStorage.getItem('jwt')
+
+    if (token) {
+      this.login = true
+      this.getList()
+    } else {
+      this.$router.push({ name: 'Login' })
+    }
+    
   },
 
 }

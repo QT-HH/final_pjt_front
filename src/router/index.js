@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Community from '../views/Community.vue'
+import Recommand from '../views/Recommand.vue'
 
 
 Vue.use(VueRouter)
@@ -28,6 +29,11 @@ const routes = [
     path: '/community',
     name: 'Community',
     component: Community,
+  },
+  {
+    path: '/recommand',
+    name: 'Recommand',
+    component: Recommand,
   },
 ]
 
